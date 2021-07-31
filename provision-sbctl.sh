@@ -1,5 +1,5 @@
 #!/bin/bash
-set -euxo pipefail
+source /vagrant/lib.sh
 
 # install dependencies.
 sudo apt-get install -y sbsigntool

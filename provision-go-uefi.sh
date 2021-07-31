@@ -1,5 +1,5 @@
 #!/bin/bash
-set -euxo pipefail
+source /vagrant/lib.sh
 
 # install.
 # see https://github.com/Foxboron/go-uefi
