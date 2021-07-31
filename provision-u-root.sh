@@ -15,9 +15,11 @@ export GO111MODULE=off
 go get -v github.com/u-root/u-root
 
 # build a default initramfs.
-mkdir -p u-root && cd u-root
-cat >uinit.sh <<'EOF'
-#!/bin/sh
+rm -rf u-root && mkdir -p u-root && cd u-root
+cat >uinit <<'UINIT_EOF'
+#!/bin/bash
+source /etc/profile
+
 echo 'Mounting /sys/firmware/efi/efivars...'
 mount -o rw,nosuid,nodev,noexec,relatime -t efivarfs efivarfs /sys/firmware/efi/efivars
 
@@ -31,20 +33,44 @@ cat /proc/mounts
 echo 'Secure Boot Status:'
 sbctl status
 
-echo 'Useful commands:'
-echo 'Create secure boot keys: sbctl create-keys'
-echo 'Enroll secure boot keys: sbctl enroll-keys'
-echo 'Sign linux: sbctl sign /boot/efi/linux'
-echo 'Unmount: umount /boot/efi'
-echo 'Reboot the system: shutdown -r'
-echo 'Shutdown the system: shutdown'
+cat <<EOF
+Useful commands:
+Create secure boot keys: sbctl create-keys
+Enroll secure boot keys: sbctl enroll-keys
+Sign linux: sbctl sign /boot/efi/linux
+Unmount: umount /boot/efi
+Reboot the system: shutdown -r
+Shutdown the system: shutdown
 EOF
-chmod +x uinit.sh
+UINIT_EOF
+chmod +x uinit
+cat >loginshell <<EOF
+#!/bin/bash
+exec /bin/bash -i -l
+EOF
+chmod +x loginshell
+cat >profile <<'EOF'
+# export the ESP PATH environment variable to sbctl to known its mount point.
+# NB this is needed because for some reason lsblk --json --output PARTTYPE,MOUNTPOINT,PTTYPE,FSTYPE
+#    is only returning the MOUNTPOINT.
+export ESP_PATH='/boot/efi'
+PS1='\w\$ '
+alias l='ls -laF'
+EOF
+# NB even though we are including the cmds/exp/bootvars command, it does not
+#    work due to https://github.com/u-root/u-root/issues/2082.
+# NB we are copying the kernel modules to /modules instead of /lib/modules
+#    because we want to manually load them for testing purposes (keep in mind
+#    that the modules from /lib/modules are automatically loaded).
 u-root \
     -o initramfs.cpio \
-    -uinitcmd '/uinit.sh' \
-    -files uinit.sh:uinit.sh \
+    -uinitcmd /uinit \
+    -defaultsh /loginshell \
+    -files uinit:uinit \
+    -files loginshell:loginshell \
+    -files profile:etc/profile \
     -files "$(ls /vagrant/tmp/linux-modules/lib/modules/*/kernel/kernel/configs.ko):modules/configs.ko" \
+    -files /bin/bash \
     -files /usr/bin/lsblk \
     -files /usr/bin/lspci \
     -files /usr/share/misc/pci.ids \
