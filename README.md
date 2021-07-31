@@ -31,49 +31,33 @@ sbctl status
 It must output:
 
 ```plain
-==> WARNING: Setup Mode: Enabled
-==> WARNING: Secure Boot: Disabled
+Installed:	✗ Sbctl is not installed
+Setup Mode:	✗ Enabled
+Secure Boot:	✗ Disabled
 ```
 
 Create our own Platform Key (PK), Key Exchange Key (KEK), and Code Signing CAs:
 
 ```bash
-# NB this internally uses sbvarsign and sbvarsign commands.
-# see https://github.com/Foxboron/sbctl/blob/fda4f2c1efd801cd04fb52923afcdb34baa42369/keys.go#L92-L100
-# see https://github.com/Foxboron/sbctl/blob/fda4f2c1efd801cd04fb52923afcdb34baa42369/keys.go#L102-L110
 sbctl create-keys
 ```
 
 It should something alike:
 
 ```bash
-==> Creating secure boot keys...
-  -> Created UUID 52364904-f16c-4e09-b9eb-57907da8302a...
-==> Create EFI signature list /usr/share/secureboot/keys/PK/PK.der.esl...
-==> Signing /usr/share/secureboot/keys/PK/PK.der.esl with /usr/share/secureboot/keys/PK/PK.key...
-==> Create EFI signature list /usr/share/secureboot/keys/KEK/KEK.der.esl...
-==> Signing /usr/share/secureboot/keys/KEK/KEK.der.esl with /usr/share/secureboot/keys/PK/PK.key...
-==> Create EFI signature list /usr/share/secureboot/keys/db/db.der.esl...
-==> Signing /usr/share/secureboot/keys/db/db.der.esl with /usr/share/secureboot/keys/KEK/KEK.key...
+Created Owner UUID 5c839e31-20eb-42a6-906b-824ab404e0dd
+Creating secure boot keys...✓ 
+Secure boot keys created!
 ```
 
 In more detail, this created all these files:
 
 ```bash
 # find -type f /usr/share/secureboot/keys
-/usr/share/secureboot/keys/KEK/KEK.auth
-/usr/share/secureboot/keys/KEK/KEK.der
-/usr/share/secureboot/keys/KEK/KEK.der.esl
 /usr/share/secureboot/keys/KEK/KEK.key
 /usr/share/secureboot/keys/KEK/KEK.pem
-/usr/share/secureboot/keys/PK/PK.auth
-/usr/share/secureboot/keys/PK/PK.der
-/usr/share/secureboot/keys/PK/PK.der.esl
 /usr/share/secureboot/keys/PK/PK.key
 /usr/share/secureboot/keys/PK/PK.pem
-/usr/share/secureboot/keys/db/db.auth
-/usr/share/secureboot/keys/db/db.der
-/usr/share/secureboot/keys/db/db.der.esl
 /usr/share/secureboot/keys/db/db.key
 /usr/share/secureboot/keys/db/db.pem
 ```
@@ -81,7 +65,7 @@ In more detail, this created all these files:
 Enroll the keys with the firmware:
 
 ```bash
-# NB internally this will write the EFI variables by calling:
+# NB this should be equivalent of using sbkeysync to write the EFI variables as:
 #       sbkeysync --pk --verbose --keystore /usr/share/secureboot/keys
 # see https://github.com/Foxboron/sbctl/blob/fda4f2c1efd801cd04fb52923afcdb34baa42369/keys.go#L114-L115
 sbctl enroll-keys
@@ -90,8 +74,8 @@ sbctl enroll-keys
 It should display something alike:
 
 ```plain
-==> Syncing /usr/share/secureboot/keys to EFI variables...
-==> Synced keys!
+Enrolling keys to EFI variables...✓ 
+Enrolled keys to the EFI variables!
 ```
 
 Verify that the platform is now out of Setup Mode:
@@ -100,11 +84,13 @@ Verify that the platform is now out of Setup Mode:
 sbctl status
 ```
 
-It must output:
+It should output something alike:
 
 ```plain
-==> Setup Mode: Disabled
-==> WARNING: Secure Boot: Disabled
+Installed:	✓ Sbctl is installed
+Owner GUID:	5c839e31-20eb-42a6-906b-824ab404e0dd
+Setup Mode:	✓ Disabled
+Secure Boot:	✗ Disabled
 ```
 
 Sign the linux efi application:
@@ -116,7 +102,7 @@ sbctl sign /boot/efi/linux
 It should output something alike:
 
 ```plain
--> Signing /boot/efi/linux...
+✓ Signed /boot/efi/linux
 ```
 
 Reboot the system:
@@ -135,8 +121,10 @@ sbctl status
 It must output:
 
 ```plain
-==> Setup Mode: Disabled
-==> Secure Boot: Enabled
+Installed:	✓ Sbctl is installed
+Owner GUID:	5c839e31-20eb-42a6-906b-824ab404e0dd
+Setup Mode:	✓ Disabled
+Secure Boot:	✓ Enabled
 ```
 
 Test loading a kernel module:

@@ -74,11 +74,6 @@ u-root \
     -files /usr/bin/lsblk \
     -files /usr/bin/lspci \
     -files /usr/share/misc/pci.ids \
-    -files /usr/bin/sbsiglist \
-    -files /usr/bin/sbvarsign \
-    -files /usr/bin/sbkeysync \
-    -files /usr/bin/sbsign \
-    -files /usr/bin/sbverify \
     -files ~/go/bin/efianalyze:usr/local/bin/efianalyze \
     -files ~/go/bin/sbctl:usr/local/bin/sbctl \
     minimal \
