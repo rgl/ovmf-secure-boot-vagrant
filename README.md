@@ -2,7 +2,7 @@
 
 This is a [Vagrant](https://www.vagrantup.com/) Environment for setting up
 the [OVMF UEFI EDK2](https://github.com/tianocore/edk2) environment to play
-with [UEFI Secure Boot](https://en.wikipedia.org/wiki/Unified_Extensible_Firmware_Interface#SECURE-BOOT).
+with [UEFI Secure Boot](https://en.wikipedia.org/wiki/Unified_Extensible_Firmware_Interface#SECURE-BOOT) using [sbctl (Secure Boot key manager)](https://github.com/Foxboron/sbctl).
 
 ## Usage
 
@@ -154,3 +154,4 @@ echo info qtree | ./qmp-shell -H ./test/amd64.socket
 * [EDK II `bcfg boot dump` source code](https://github.com/tianocore/edk2/blob/976d0353a6ce48149039849b52bb67527be5b580/ShellPkg/Library/UefiShellBcfgCommandLib/UefiShellBcfgCommandLib.c#L1301).
 * [UefiToolsPkg](https://github.com/andreiw/UefiToolsPkg) set of UEFI tools.
   * These are useful on their own and as C source based UEFI application examples.
+* [sbctl (Secure Boot key manager)](https://github.com/Foxboron/sbctl).
