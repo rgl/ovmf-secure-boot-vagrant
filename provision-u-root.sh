@@ -1,6 +1,13 @@
 #!/bin/bash
 source /vagrant/lib.sh
 
+# use go 1.15.
+# TODO when https://github.com/u-root/u-root/issues/1859 is done, upgrade
+#      to go 1.16 and remove this.
+export GOPATH="$HOME/go-1.15"
+export PATH="/usr/local/go-1.15/bin:$GOPATH/bin:$PATH"
+export GO111MODULE=off
+
 # install.
 # see https://u-root.org/
 # see https://github.com/u-root/u-root
