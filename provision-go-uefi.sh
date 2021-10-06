@@ -3,4 +3,4 @@ source /vagrant/lib.sh
 
 # install.
 # see https://github.com/Foxboron/go-uefi
-go get -v github.com/foxboron/go-uefi/cmd/efianalyze@3a44878e0db98c03f38138a26c4b56ed219f2949 # 2021-07-07T12:36:20Z
+go install -v github.com/foxboron/go-uefi/cmd/efianalyze@6b0ee85df4cd4bfe24a2bdf2120f0f9ffe029841 # 2021-09-29T17:09:05Z

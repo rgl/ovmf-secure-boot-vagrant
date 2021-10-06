@@ -3,4 +3,4 @@ source /vagrant/lib.sh
 
 # install.
 # see https://github.com/Foxboron/sbctl
-go get -v github.com/foxboron/sbctl/cmd/sbctl@66d1482dd9e0d4ae3f1b8ffb42ed57f41ab596cb # 2021-07-22T19:12:29Z
+go install -v github.com/foxboron/sbctl/cmd/sbctl@bedb8e8c8378c35195326e7fffa5f86b978662fd # 2021-09-05T13:33:17Z
