@@ -11,7 +11,9 @@ export GO111MODULE=off
 # install.
 # see https://u-root.org/
 # see https://github.com/u-root/u-root
-# TODO lock the version.
+# TODO pin the version.
+#      NB we cannot use go get path@version in GOPATH mode.
+# NB this was tested with 67f0c0f77a070eca2494e3605ed33ee045c4a307 # 2021-10-04T20:19:04Z
 go get -v github.com/u-root/u-root
 
 # build a default initramfs.
