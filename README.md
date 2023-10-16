@@ -4,9 +4,9 @@ This is a [Vagrant](https://www.vagrantup.com/) Environment for setting up
 the [OVMF UEFI EDK2](https://github.com/tianocore/edk2) environment to play
 with [UEFI Secure Boot](https://en.wikipedia.org/wiki/Unified_Extensible_Firmware_Interface#SECURE-BOOT) using [sbctl (Secure Boot key manager)](https://github.com/Foxboron/sbctl).
 
-## Usage
+## Usage (in Ubuntu 22.04)
 
-Install the [base Ubuntu 20.04 UEFI box](https://github.com/rgl/ubuntu-vagrant).
+Install the [base Ubuntu 22.04 UEFI box](https://github.com/rgl/ubuntu-vagrant).
 
 Start the environment:
 

@@ -166,7 +166,7 @@ fi
 if [ ! -f test-boot.qcow2 ]; then
     install -m 660 ../boot.qcow2 test-boot.qcow2
     # NB to use the ubuntu image instead, uncomment the following line.
-    #qemu-img create -f qcow2 -b ~/.vagrant.d/boxes/ubuntu-20.04-uefi-amd64/0/libvirt/box.img test-boot.qcow2
+    #qemu-img create -f qcow2 -b ~/.vagrant.d/boxes/ubuntu-22.04-uefi-amd64/0.0.0/libvirt/box_0.img test-boot.qcow2
     qemu-img info test-boot.qcow2
 fi
 # NB replace -nographic with -vga qxl to enable the GUI console.
@@ -189,7 +189,7 @@ qemu-system-x86_64 \
   -global ICH9-LPC.disable_s3=1 \
   -global ICH9-LPC.disable_s4=1 \
   -global driver=cfi.pflash01,property=secure,value=on \
-  -drive if=pflash,unit=0,file=test-ovmf-code-amd64.fd,format=raw,readonly \
+  -drive if=pflash,unit=0,file=test-ovmf-code-amd64.fd,format=raw,readonly=on \
   -drive if=pflash,unit=1,file=test-ovmf-vars-amd64.fd,format=raw \
   -object rng-random,filename=/dev/urandom,id=rng0 \
   -device virtio-rng-pci,rng=rng0 \

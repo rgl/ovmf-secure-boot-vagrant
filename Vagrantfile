@@ -1,5 +1,5 @@
 Vagrant.configure('2') do |config|
-  config.vm.box = 'ubuntu-20.04-uefi-amd64'
+  config.vm.box = 'ubuntu-22.04-uefi-amd64'
 
   config.vm.provider :libvirt do |lv, config|
     lv.memory = 4*1024
@@ -7,7 +7,7 @@ Vagrant.configure('2') do |config|
     lv.cpu_mode = 'host-passthrough'
     lv.nested = true
     lv.keymap = 'pt'
-    config.vm.synced_folder '.', '/vagrant', type: 'nfs'
+    config.vm.synced_folder '.', '/vagrant', type: 'nfs', nfs_version: '4.2', nfs_udp: false
   end
 
   config.vm.hostname = 'ovmf'
