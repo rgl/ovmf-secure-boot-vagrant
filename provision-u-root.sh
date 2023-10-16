@@ -1,29 +1,25 @@
 #!/bin/bash
 source /vagrant/lib.sh
 
-# use go 1.15.
-# TODO when https://github.com/u-root/u-root/issues/1859 is done, upgrade
-#      to go 1.16 and remove this.
-export GOPATH="$HOME/go-1.15"
-export PATH="/usr/local/go-1.15/bin:$GOPATH/bin:$PATH"
-export GO111MODULE=off
+# use go 1.19.
+export GBB_PATH="$PWD/u-root-src"
+export GOPATH="$HOME/go-1.19"
+export PATH="$GBB_PATH:/usr/local/go-1.19/bin:$GOPATH/bin:$PATH"
 
 # install.
 # see https://u-root.org/
 # see https://github.com/u-root/u-root
-# TODO pin the version.
-#      NB we cannot use go get path@version in GOPATH mode.
-# NB this was tested with 67f0c0f77a070eca2494e3605ed33ee045c4a307 # 2021-10-04T20:19:04Z
-go get -v github.com/u-root/u-root
+git clone https://github.com/u-root/u-root.git u-root-src
+pushd u-root-src
+git checkout 4dad982f78a72202985296afdfbc47c274ccc944 # v0.11.0 2023-02-02T08:20:08Z
+go build
+popd
 
 # build a default initramfs.
 rm -rf u-root && mkdir -p u-root && cd u-root
 cat >uinit <<'UINIT_EOF'
 #!/bin/bash
 source /etc/profile
-
-echo 'Mounting /sys/firmware/efi/efivars...'
-mount -o rw,nosuid,nodev,noexec,relatime -t efivarfs efivarfs /sys/firmware/efi/efivars
 
 echo 'Mounting /boot/efi...'
 mkdir -p /boot/efi

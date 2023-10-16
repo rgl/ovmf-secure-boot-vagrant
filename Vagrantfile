@@ -17,7 +17,7 @@ Vagrant.configure('2') do |config|
   config.vm.provision :shell, path: 'provision-edk2.sh'
   config.vm.provision :shell, path: 'build-ovmf.sh', privileged: false
   config.vm.provision :shell, path: 'provision-go.sh'
-  config.vm.provision :shell, path: 'provision-go-1.15.sh'
+  config.vm.provision :shell, path: 'provision-go-1.19.sh'
   config.vm.provision :shell, path: 'provision-qmp-shell.sh', privileged: false
   config.vm.provision :shell, path: 'provision-go-uefi.sh', privileged: false
   config.vm.provision :shell, path: 'provision-sbctl.sh', privileged: false
