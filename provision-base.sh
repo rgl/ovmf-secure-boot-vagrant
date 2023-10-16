@@ -1,11 +1,39 @@
 #!/bin/bash
 source /vagrant/lib.sh
 
+
+#
+# prevent apt-get et al from asking questions.
+
 echo 'Defaults env_keep += "DEBIAN_FRONTEND"' >/etc/sudoers.d/env_keep_apt
 chmod 440 /etc/sudoers.d/env_keep_apt
 export DEBIAN_FRONTEND=noninteractive
+
+
+#
+# make sure the package index cache is up-to-date before installing anything.
+
 apt-get update
-#apt-get upgrade -y
+
+
+#
+# expand the root partition.
+
+apt-get install -y --no-install-recommends parted
+partition_device="$(findmnt -no SOURCE /)"
+partition_number="$(echo "$partition_device" | perl -ne '/(\d+)$/ && print $1')"
+disk_device="$(echo "$partition_device" | perl -ne '/(.+?)\d+$/ && print $1')"
+gdisk "$disk_device" <<EOF
+v
+w
+Y
+Y
+EOF
+parted ---pretend-input-tty "$disk_device" <<EOF
+resizepart $partition_number 100%
+yes
+EOF
+resize2fs "$partition_device"
 
 
 #
