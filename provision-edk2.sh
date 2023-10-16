@@ -18,7 +18,7 @@ set -euxo pipefail
 # clone the edk2 repo.
 git clone https://github.com/tianocore/edk2.git edk2
 cd edk2
-git checkout edk2-stable202108
+git checkout edk2-stable202308
 git submodule update --init --recursive
 
 # build the base edk2 tools.
