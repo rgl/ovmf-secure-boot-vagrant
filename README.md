@@ -107,6 +107,23 @@ It should output something alike:
 ✓ Signed /boot/efi/linux
 ```
 
+Analyze the linux efi application:
+
+```bash
+efianalyze signed-image /boot/efi/linux
+```
+
+It should output something alike:
+
+```plain
+Data Directory Header:
+	Virtual Address: 0xa1e8a0
+	Size in bytes: 2192
+Certificate Type: WIN_CERT_TYPE_PKCS_SIGNED_DATA
+	Issuer Name: CN=Database Key,C=Database Key
+	Serial Number: 48816627373166678216378579258444048592
+```
+
 Reboot the system:
 
 ```bash
