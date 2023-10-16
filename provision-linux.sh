@@ -9,7 +9,7 @@ sudo apt-get install -y bc bison flex libssl-dev make libc6-dev libncurses5-dev 
 
 # get the linux kernel source code.
 if [ ! -d linux ]; then
-    linux_url='https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.4.150.tar.xz'
+    linux_url='https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.4.258.tar.xz'
     linux_path="$(basename $linux_url)"
     wget -qO $linux_path $linux_url
     mkdir linux
