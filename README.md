@@ -31,9 +31,10 @@ sbctl status
 It must output:
 
 ```plain
-Installed:	✗ Sbctl is not installed
-Setup Mode:	✗ Enabled
-Secure Boot:	✗ Disabled
+Installed:    ✗ sbctl is not installed
+Setup Mode:   ✗ Enabled
+Secure Boot:  ✗ Disabled
+Vendor Keys:  none
 ```
 
 Create our own Platform Key (PK), Key Exchange Key (KEK), and Code Signing CAs:
@@ -68,7 +69,7 @@ Enroll the keys with the firmware:
 # NB this should be equivalent of using sbkeysync to write the EFI variables as:
 #       sbkeysync --pk --verbose --keystore /usr/share/secureboot/keys
 # see https://github.com/Foxboron/sbctl/blob/fda4f2c1efd801cd04fb52923afcdb34baa42369/keys.go#L114-L115
-sbctl enroll-keys
+sbctl enroll-keys --yes-this-might-brick-my-machine
 ```
 
 It should display something alike:
@@ -87,10 +88,11 @@ sbctl status
 It should output something alike:
 
 ```plain
-Installed:	✓ Sbctl is installed
-Owner GUID:	5c839e31-20eb-42a6-906b-824ab404e0dd
-Setup Mode:	✓ Disabled
-Secure Boot:	✗ Disabled
+Installed:    ✓ sbctl is installed
+Owner GUID:   88f1e363-3f8e-4f73-9a86-57a2dcb1a285
+Setup Mode:   ✓ Disabled
+Secure Boot:  ✗ Disabled
+Vendor Keys:  none
 ```
 
 Sign the linux efi application:
@@ -121,10 +123,11 @@ sbctl status
 It must output:
 
 ```plain
-Installed:	✓ Sbctl is installed
-Owner GUID:	5c839e31-20eb-42a6-906b-824ab404e0dd
-Setup Mode:	✓ Disabled
-Secure Boot:	✓ Enabled
+Installed:    ✓ sbctl is installed
+Owner GUID:   88f1e363-3f8e-4f73-9a86-57a2dcb1a285
+Setup Mode:   ✓ Disabled
+Secure Boot:  ✓ Enabled
+Vendor Keys:  none
 ```
 
 Test loading a kernel module:
